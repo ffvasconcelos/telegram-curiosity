@@ -1,0 +1,160 @@
+{
+    "total": 12,
+    "1972535429": {
+        "time": 1632532489.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "1080712015": {
+        "time": 1667414739.0,
+        "total_row": 1,
+        "total_col": 1,
+        "degree_input": 1,
+        "degree_output": 1,
+        "1080712015": {
+            "num": 1,
+            "tau": 42.0
+        }
+    },
+    "1521132765": {
+        "time": 1641459119.0,
+        "total_row": 1,
+        "total_col": 1,
+        "degree_input": 1,
+        "degree_output": 1,
+        "1521132765": {
+            "num": 1,
+            "tau": 10.0
+        }
+    },
+    "1203067714": {
+        "time": 1633837654.0,
+        "total_row": 3,
+        "total_col": 3,
+        "degree_input": 1,
+        "degree_output": 1,
+        "1203067714": {
+            "num": 3,
+            "tau": 106.66666666666667
+        }
+    },
+    "1440098901": {
+        "time": 1636976778.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "819592858": {
+        "time": 1640098878.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "1321237099": {
+        "time": 1638481879.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "1146056594": {
+        "time": 1645889961.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "2037888881": {
+        "time": 1639420450.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "229613577": {
+        "time": 1658130176.0,
+        "total_row": 3,
+        "total_col": 3,
+        "degree_input": 1,
+        "degree_output": 1,
+        "229613577": {
+            "num": 3,
+            "tau": 909.3333333333334
+        }
+    },
+    "1931038364": {
+        "time": 1640129097.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "1562715684": {
+        "time": 1639931535.0,
+        "total_row": 3,
+        "total_col": 3,
+        "degree_input": 1,
+        "degree_output": 1,
+        "1562715684": {
+            "num": 3,
+            "tau": 155.33333333333334
+        }
+    },
+    "1932255844": {
+        "time": 1640266870.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "5052744042": {
+        "time": 1642353617.0,
+        "total_row": 1,
+        "total_col": 1,
+        "degree_input": 1,
+        "degree_output": 1,
+        "5052744042": {
+            "num": 1,
+            "tau": 79.0
+        }
+    },
+    "5259575979": {
+        "time": 1646425557.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "1088302899": {
+        "time": 1655317986.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "5598468135": {
+        "time": 1661447872.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "1665874958": {
+        "time": 1664739778.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "5507968656": {
+        "time": 1666993328.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    }
+}

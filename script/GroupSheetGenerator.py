@@ -78,7 +78,10 @@ if __name__ == "__main__":
 
     cur = conn.cursor()
 
-    cur.execute("SELECT channel_id FROM messages GROUP BY channel_id HAVING COUNT(DISTINCT from_id) > 1 LIMIT 10")
+    cur.execute("(SELECT m.channel_id, COUNT(*) AS quantidade FROM messages m WHERE m.channel_id IN (SELECT "
+                "channel_id FROM messages GROUP BY channel_id HAVING COUNT(DISTINCT from_id) > 1) GROUP BY "
+                "m.channel_id) ORDER BY quantidade ASC LIMIT 10")
+
     recset = cur.fetchall()
 
     groups = np.array([rec[0] for rec in recset])

@@ -1,3 +1,0 @@
-#user	A	B	C	D	E	F	G	Gu	H	I	L	M	N	J	O	P	Mu	Ou	Pu	Nu	ProbTl	PindK	PindU	ProbU	TauU	HcondO	Us	Total	timestamp
-#user	A	B	C	D	E	F	G	Gu	H	I	L	M	N	J	O	P	Mu	Ou	Pu	Nu	ProbTl	PindK	PindU	ProbU	TauU	HcondO	Us	Total	timestamp
-#user	A	B	C	D	E	F	G	Gu	H	I	L	M	N	J	O	P	Mu	Ou	Pu	Nu	ProbTl	PindK	PindU	ProbU	TauU	HcondO	Us	Total	timestamp

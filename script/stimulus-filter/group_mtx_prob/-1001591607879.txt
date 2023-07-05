@@ -1,0 +1,185 @@
+{
+    "total": 115,
+    "635826605": {
+        "time": 1631652542.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "1202893091": {
+        "time": 1643157757.0,
+        "total_row": 17,
+        "total_col": 17,
+        "degree_input": 1,
+        "degree_output": 1,
+        "1202893091": {
+            "num": 17,
+            "tau": 90.17647058823529
+        }
+    },
+    "1156752941": {
+        "time": 1633548510.0,
+        "total_row": 4,
+        "total_col": 4,
+        "degree_input": 1,
+        "degree_output": 1,
+        "1156752941": {
+            "num": 4,
+            "tau": 39.75
+        }
+    },
+    "1143851554": {
+        "time": 1664994656.0,
+        "total_row": 3,
+        "total_col": 1,
+        "degree_input": 1,
+        "degree_output": 2,
+        "1143851554": {
+            "num": 1,
+            "tau": 44.0
+        },
+        "59500065": {
+            "num": 2,
+            "tau": 238.0
+        }
+    },
+    "1767281605": {
+        "time": 1635128739.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "1533948028": {
+        "time": 1635524400.0,
+        "total_row": 1,
+        "total_col": 1,
+        "degree_input": 1,
+        "degree_output": 1,
+        "1533948028": {
+            "num": 1,
+            "tau": 1.0
+        }
+    },
+    "529665262": {
+        "time": 1655252788.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "2086374857": {
+        "time": 1636069807.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "889950168": {
+        "time": 1656952827.0,
+        "total_row": 6,
+        "total_col": 9,
+        "degree_input": 2,
+        "degree_output": 1,
+        "889950168": {
+            "num": 6,
+            "tau": 295.0
+        }
+    },
+    "969832613": {
+        "time": 1637420245.0,
+        "total_row": 6,
+        "total_col": 3,
+        "degree_input": 1,
+        "degree_output": 2,
+        "969832613": {
+            "num": 3,
+            "tau": 30.0
+        },
+        "889950168": {
+            "num": 3,
+            "tau": 21.666666666666668
+        }
+    },
+    "1534044889": {
+        "time": 1643988240.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "5195423578": {
+        "time": 1649771140.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "5260646021": {
+        "time": 1653238148.0,
+        "total_row": 15,
+        "total_col": 15,
+        "degree_input": 1,
+        "degree_output": 1,
+        "5260646021": {
+            "num": 15,
+            "tau": 4.6
+        }
+    },
+    "1527427521": {
+        "time": 1656441376.0,
+        "total_row": 1,
+        "total_col": 1,
+        "degree_input": 1,
+        "degree_output": 1,
+        "1527427521": {
+            "num": 1,
+            "tau": 66.0
+        }
+    },
+    "59500065": {
+        "time": 1665505338.0,
+        "total_row": 10,
+        "total_col": 36,
+        "degree_input": 3,
+        "degree_output": 1,
+        "59500065": {
+            "num": 10,
+            "tau": 72.0
+        }
+    },
+    "5205077568": {
+        "time": 1658099649.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "5585370791": {
+        "time": 1659467664.0,
+        "total_row": 1,
+        "total_col": 1,
+        "degree_input": 1,
+        "degree_output": 1,
+        "5585370791": {
+            "num": 1,
+            "tau": 0.0
+        }
+    },
+    "5799898260": {
+        "time": 1665504746.0,
+        "total_row": 51,
+        "total_col": 27,
+        "degree_input": 1,
+        "degree_output": 2,
+        "5799898260": {
+            "num": 27,
+            "tau": 44.7037037037037
+        },
+        "59500065": {
+            "num": 24,
+            "tau": 234.5
+        }
+    }
+}

@@ -1,0 +1,111 @@
+{
+    "total": 505,
+    "1577833711": {
+        "time": 1670353171.0,
+        "total_row": 75,
+        "total_col": 75,
+        "degree_input": 1,
+        "degree_output": 1,
+        "1577833711": {
+            "num": 75,
+            "tau": 760.0
+        }
+    },
+    "104649818": {
+        "time": 1617405927.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "1110673363": {
+        "time": 1614786751.0,
+        "total_row": 3,
+        "total_col": 3,
+        "degree_input": 1,
+        "degree_output": 1,
+        "1110673363": {
+            "num": 3,
+            "tau": 920.0
+        }
+    },
+    "1216399815": {
+        "time": 1615650596.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "1668232182": {
+        "time": 1616171147.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "1445556925": {
+        "time": 1616808543.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "628961474": {
+        "time": 1620989318.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "1149190083": {
+        "time": 1623670604.0,
+        "total_row": 1,
+        "total_col": 1,
+        "degree_input": 1,
+        "degree_output": 1,
+        "1149190083": {
+            "num": 1,
+            "tau": 2.0
+        }
+    },
+    "1569419827": {
+        "time": 1629254482.0,
+        "total_row": 19,
+        "total_col": 19,
+        "degree_input": 1,
+        "degree_output": 1,
+        "1569419827": {
+            "num": 19,
+            "tau": 297.1578947368421
+        }
+    },
+    "1143041601": {
+        "time": 1627166104.0,
+        "total_row": 1,
+        "total_col": 1,
+        "degree_input": 1,
+        "degree_output": 1,
+        "1143041601": {
+            "num": 1,
+            "tau": 0.0
+        }
+    },
+    "1736032789": {
+        "time": 1670505986.0,
+        "total_row": 0,
+        "total_col": 0,
+        "degree_input": 0,
+        "degree_output": 0
+    },
+    "231934592": {
+        "time": 1670510520.0,
+        "total_row": 406,
+        "total_col": 406,
+        "degree_input": 1,
+        "degree_output": 1,
+        "231934592": {
+            "num": 406,
+            "tau": 345.5221674876847
+        }
+    }
+}

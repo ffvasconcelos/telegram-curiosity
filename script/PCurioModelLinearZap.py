@@ -18,7 +18,7 @@ import pandas as pd
 # import pandas as pd
 from logger import Logger
 from util import binary_search
-from multiprocessing import Process
+from multiprocessing import Process, Queue, current_process
 from characterizaton import stats_probabilities
 from tqdm import tqdm
 
@@ -801,6 +801,34 @@ def multiprocessing(path, index_slices, window):
         blk.join()
 
 
+def init_proccess(path, window, queue):
+    while not queue.empty():
+        try:
+            task = working_process(path, [queue.get()], window)
+        except queue.Empty:
+            break
+
+    print("Finishing process %d" % current_process().pid)
+
+
+def multiprocess_manager(path, groups, window, N_PROC):
+    queue = Queue()
+    block = []
+
+    for group in groups:
+        queue.put(group)
+
+    for proc in range(N_PROC):
+        blk = Process(target=init_proccess, args=(path, window, queue))
+        blk.start()
+        print('Process %d: %d,%s' % (proc, blk.pid, " starting..."))
+        block.append(blk)
+
+    for blk in block:
+        print('%d,%s' % (blk.pid, " waiting..."))
+        blk.join()
+
+
 if __name__ == '__main__':
     path = './'
 
@@ -821,7 +849,14 @@ if __name__ == '__main__':
         print('\nNothing was done!....\n')
     groups_idx = np.array(list(set(groups_idx).difference(set(groups_idx_done))))
 
-    N_PROC = 70
+    N_PROC = 3
+
+    print("Starting...")
+
+    multiprocess_manager(path, groups_idx, 1, N_PROC)
+
+    """
+    
     SIZE = groups_idx.size
     lenght = int(np.ceil(SIZE / N_PROC))
     shares = [i * lenght for i in range(N_PROC)]
@@ -841,3 +876,5 @@ if __name__ == '__main__':
         end = Time.time()
         runtime = end - start
         print("\nRuntime: ", runtime)
+        
+    """

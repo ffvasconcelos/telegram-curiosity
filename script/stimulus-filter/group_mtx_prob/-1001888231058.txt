@@ -1,0 +1,29 @@
+{
+    "total": 6,
+    "5061688305": {
+        "time": 1675022796.0,
+        "total_row": 5,
+        "total_col": 1,
+        "degree_input": 1,
+        "degree_output": 2,
+        "5061688305": {
+            "num": 1,
+            "tau": 11.0
+        },
+        "1960654701": {
+            "num": 4,
+            "tau": 130.0
+        }
+    },
+    "1960654701": {
+        "time": 1675072937.0,
+        "total_row": 1,
+        "total_col": 5,
+        "degree_input": 2,
+        "degree_output": 1,
+        "1960654701": {
+            "num": 1,
+            "tau": 37.0
+        }
+    }
+}
