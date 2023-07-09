@@ -676,7 +676,7 @@ if __name__ == '__main__':
     dgroup_info = pd.read_csv(path + 'dataset_raw_info.csv', sep='\t', encoding='utf-8')
     # dgroup_info=pd.read_csv(path+'dataset_gname_raw_info.csv',sep='\t', encoding='utf-8')
 
-    N_PROC = 4
+    N_PROC = 70
     groups_idx = dgroup_info.groupID.values  # groupID.values#gname.values
     # groups_idx=dgroup_info.gname.values
     SIZE = groups_idx.size
