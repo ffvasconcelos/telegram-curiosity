@@ -80,7 +80,7 @@ if __name__ == "__main__":
 
     cur.execute("(SELECT m.channel_id, COUNT(*) AS quantidade FROM messages m WHERE m.channel_id IN (SELECT "
                 "channel_id FROM messages GROUP BY channel_id HAVING COUNT(DISTINCT from_id) > 1) GROUP BY "
-                "m.channel_id) ORDER BY quantidade ASC LIMIT 10")
+                "m.channel_id) ORDER BY quantidade ASC LIMIT 50")
 
     recset = cur.fetchall()
 
@@ -104,6 +104,6 @@ if __name__ == "__main__":
         formatted_group_df = group_formatter(group_df)
         formatted_group_df.to_csv('./groups/' + str(group) + '.tsv', sep='\t', index=False)
 
-    print("Code ran for %f seg" % ((start - time.time()) / 1000))
+    print("Code ran for %f seg" % ((time.time() - start)))
 
     conn.close()

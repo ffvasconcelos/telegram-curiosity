@@ -8,12 +8,9 @@ Created on Wed Jul 18 16:56:55 2018
 import os
 import numpy as np
 import pandas as pd
-# from scipy import stats
 from logger import Logger
-# from scipy import stats as st
-# from util import plot_cdf_list_curves
 from multiprocessing import Process
-from tqdm import tqdm
+
 
 def recording_files(list_dt, list_cols, STORE_PATH):
     for i in range(len(list_cols)):
@@ -32,9 +29,10 @@ def recording_files(list_dt, list_cols, STORE_PATH):
             with open(STORE_PATH + '/' + fname3, 'a') as f:
                 dt2.to_csv(f, sep='\t', header=False, float_format='%.2f', index=False)
 
+
 def entropy_compute_time(arr, delta):
     h = 0.
-    if type(arr) == float:
+    if type(arr) == np.float:
         prob = arr
         if prob == 0.:
             # prob=delta ## the entropy of zero probability is zero by convention
@@ -56,7 +54,7 @@ def entropy_compute_time(arr, delta):
 
 def entropy_compute(arr1):
     h = 0.
-    if type(arr1) == float:
+    if type(arr1) == np.float:
         prob = arr1
         if prob == 0.:
             h = 0.
@@ -82,7 +80,7 @@ def mutual_info_compute(arr1, arr2, arr3):
 
 
 """
-Remove the Zero values if there is at least one value different to zero
+Remove the Zero values if there is at least one value different of zero
 """
 
 
@@ -98,7 +96,7 @@ def divide_arrays_by_cell(arr1, arr2):
     i = np.nonzero(arr2)[0]
     # print(arr1,arr1.dtype,arr2,arr2.dtype)
     if i.size == 0:
-        result = np.zeros(arr1.shape, dtype=float)
+        result = np.zeros(arr1.shape, dtype=np.float)
     else:
         result = arr1[i] / arr2[i]
     # print(result,result.dtype)
@@ -106,6 +104,40 @@ def divide_arrays_by_cell(arr1, arr2):
     if result.size == 0:
         result = np.array([0])
     return result
+
+
+def divide_arrays_by_cell_scalar(arr1, arr2):
+    i = np.nonzero(arr2)[0]  # get the list of index of non zero values from tuple
+    # print(i,j,arr1,arr1.dtype,arr2,arr2.dtype)
+    if i.size == 0:
+        result = np.zeros(arr1.shape, dtype=np.float)
+    else:
+        result = arr1 / arr2[i]
+    # print(result,result.dtype)
+    result = result[np.nonzero(result)]
+    if result.size == 0:
+        result = np.array([0])
+    return result
+
+
+def logarithm_weighted_array(arr1, arr2):
+    arr1[arr1 == 0] = 1.
+    arr1 = np.log2(arr1)
+    result = arr2 * arr1
+    result[result < 0] = 0.
+    return result
+
+
+def logarithm_array(arr):
+    arr[arr == 0] = 1.
+    arr = np.log2(arr)
+    arr[arr < 0] = 0.
+    return arr
+
+
+def maximum_array(arr):
+    arr[arr < 0] = 0.
+    return arr
 
 
 def largest_count_to_surprisal_compute(arr1, arr2):
@@ -148,7 +180,7 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
     col_st = ['user', 'avg', 'std', 'min', '10%', '50%', '90%', 'max']
     dict_dtype = {}
     for key in col_st:
-        dict_dtype[key] = float
+        dict_dtype[key] = np.float
     for i in range(len(cols1)):
         ldata.append([])
         ldatagroup.append([])
@@ -160,14 +192,14 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
     for i in range(len(cols_corrs)):
         ldata8.append([])
         ldata9.append([])
-    # prvalues=[] 
+    # prvalues=[]
     pcvalues = []
     tauvalues = []
     TIME_WINDOW = 1800
     # Dt=30*60
     count = records = 0
     RECORDS_PERIOD = 1
-    for fname in tqdm(slices):
+    for fname in slices:
         # try:
         print('\n\t', fname, '\n')
         count += 1
@@ -188,42 +220,46 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
         """
         if dframe[dframe.user.isin(users_idx)].shape[0] >= 30:
             if dframe.J.dtype != np.int64:
-                dframe.J = dframe.J.str.split(',').apply(np.asarray, args=(int,))
+                dframe.J = dframe.J.str.split(',').apply(np.asarray, args=(np.int,))
             if dframe.P.dtype != np.float64:
-                dframe.P = dframe.P.str.split(',').apply(np.asarray, args=(float,))
+                dframe.P = dframe.P.str.split(',').apply(np.asarray, args=(np.float,))
             if dframe.O.dtype != np.int64:
-                dframe.O = dframe.O.str.split(',').apply(np.asarray, args=(int,))
+                dframe.O = dframe.O.str.split(',').apply(np.asarray, args=(np.int,))
             if dframe.Pu.dtype != np.float64:
-                dframe.Pu = dframe.Pu.str.split(',').apply(np.asarray, args=(float,))
+                dframe.Pu = dframe.Pu.str.split(',').apply(np.asarray, args=(np.float,))
             if dframe.Ou.dtype != np.int64:
-                dframe.Ou = dframe.Ou.str.split(',').apply(np.asarray, args=(int,))
+                dframe.Ou = dframe.Ou.str.split(',').apply(np.asarray, args=(np.int,))
             if dframe.N.dtype != np.int64:
-                dframe.N = dframe.N.str.split(',').apply(np.asarray, args=(int,))
+                dframe.N = dframe.N.str.split(',').apply(np.asarray, args=(np.int,))
 
             # dframe.ProbTl = dframe.ProbTl.astype(str)
-            # dframe.ProbTl = dframe.ProbTl.str.split(',').apply(np.asarray,args=(float,))
+            # dframe.ProbTl = dframe.ProbTl.str.split(',').apply(np.asarray,args=(np.float,))
             dframe.ProbU = dframe.ProbU.astype(str)
-            dframe.ProbU = dframe.ProbU.str.split(',').apply(np.asarray, args=(float,))
+            dframe.ProbU = dframe.ProbU.str.split(',').apply(np.asarray, args=(np.float,))
             dframe.Tau = dframe.Tau.astype(str)
-            dframe.Tau = dframe.Tau.str.split(',').apply(np.asarray, args=(float,))
+            dframe.Tau = dframe.Tau.str.split(',').apply(np.asarray, args=(np.float,))
             dframe.PindU = dframe.PindU.astype(str)
-            dframe.PindU = dframe.PindU.str.split(',').apply(np.asarray, args=(float,))
+            dframe.PindU = dframe.PindU.str.split(',').apply(np.asarray, args=(np.float,))
             dframe.PindK = dframe.PindK.astype(str)
-            dframe.PindK = dframe.PindK.str.split(',').apply(np.asarray, args=(float,))
+            dframe.PindK = dframe.PindK.str.split(',').apply(np.asarray, args=(np.float,))
             dframe.total = dframe.total.astype(str)
-            dframe.total = dframe.total.str.split(',').apply(np.asarray, args=(float,))
+            dframe.total = dframe.total.str.split(',').apply(np.asarray, args=(np.float,))
+            dframe.ProbTl = dframe.ProbTl.astype(str)
+            dframe.ProbTl = dframe.ProbTl.str.split(',').apply(np.asarray, args=(np.float,))
 
             dframe.HcondO = dframe.HcondO.astype(str)
-            dframe.HcondO = dframe.HcondO.str.split(',').apply(np.asarray, args=(float,))
+            dframe.HcondO = dframe.HcondO.str.split(',').apply(np.asarray, args=(np.float,))
 
             dframe.PO = dframe.PO.astype(str)
-            dframe.PO = dframe.PO.str.split(',').apply(np.asarray, args=(float,))
+            dframe.PO = dframe.PO.str.split(',').apply(np.asarray, args=(np.float,))
 
             dframe.Hd_partial = dframe.Hd_partial.astype(str)
-            dframe.Hd_partial = dframe.Hd_partial.str.split(',').apply(np.asarray, args=(float,))
+            dframe.Hd_partial = dframe.Hd_partial.str.split(',').apply(np.asarray, args=(np.float,))
 
             dframe['PoHcondO'] = dframe.PO * dframe.HcondO
             dframe['MI_super'] = dframe['Hd_partial'] - dframe['PoHcondO']
+            # get the maximum between 0 and every value of MI_super array
+            dframe['MI_super'] = np.vectorize(maximum_array, otypes=[object])(dframe['MI_super'])
             dframe['MI_super_avg'] = dframe['MI_super'].apply(np.mean)
             dframe['MI_super_max'] = dframe['MI_super'].apply(np.max)
 
@@ -234,11 +270,17 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
             # changing the couting to probabilities
 
             dframe['ProbU'] = np.vectorize(divide_arrays_by_cell, otypes=[object])(dframe['ProbU'], dframe['PindK'])
-            dframe['PindU'] = np.vectorize(divide_arrays_by_cell, otypes=[object])(dframe['PindU'], dframe['total'])
-            # dframe['ProbTl']=np.vectorize(divide_arrays_by_cell,otypes=[object])(dframe['ProbTl'],dframe['total'])
+            dframe['PindU'] = np.vectorize(divide_arrays_by_cell_scalar, otypes=[object])(dframe['PindU'],
+                                                                                          dframe['total'])
+            dframe['ProbTl'] = np.vectorize(divide_arrays_by_cell, otypes=[object])(dframe['ProbTl'], dframe['total'])
             dframe['MI'] = np.vectorize(divide_arrays_by_cell, otypes=[object])(dframe['ProbU'], dframe['PindU'])
             dframe['HcondO'] = np.vectorize(remove_zero, otypes=[object])(dframe['HcondO'])
-
+            # ************************************************************
+            # applying the logarithm and the maximum between the result of
+            # log for MI and 0 to avoid negative numbers
+            dframe.MI = np.vectorize(logarithm_array, otypes=[object])(dframe['MI'])  # ,dframe['ProbTl'])
+            # print(dframe.MI.values)
+            # ************************************************************
             dframe['J_avg'] = dframe.J.apply(np.mean)
             dframe['O_sum'] = dframe.O.apply(np.sum)
             dframe['P_avg'] = dframe.P.apply(np.mean)
@@ -248,13 +290,13 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
             # dframe['ProbTl_avg']=dframe.ProbTl.apply(np.mean)
             dframe['ProbU_avg'] = dframe.ProbU.apply(np.mean)
             dframe['HcondO_avg'] = dframe.HcondO.apply(np.mean)
-            dframe['MI_avg'] = dframe.MI.apply(np.mean)
+            dframe['MI_avg'] = dframe.MI.apply(np.mean)  # <<<-----------
             dframe['Tau_avg'] = dframe.Tau.apply(np.mean)
 
             # dframe['ProbTl_max']=dframe.ProbTl.apply(np.max)
             dframe['ProbU_max'] = dframe.ProbU.apply(np.min)
             dframe['HcondO_max'] = dframe.HcondO.apply(np.min)
-            dframe['MI_max'] = dframe.MI.apply(np.max)
+            dframe['MI_max'] = dframe.MI.apply(np.max)  # <<<-----------
             dframe['Tau_max'] = np.vectorize(tau_largest_count_to_surprisal_compute)(dframe['ProbU'], dframe[
                 'Tau'])  # getting the tau of max ProbU
 
@@ -288,10 +330,10 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
 
                 if not os.path.exists(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-group.tsv'):
                     dt.to_csv(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-group.tsv', sep='\t',
-                              header=True, float_format='%.2f', index=False)
+                              header=True, float_format='%.3f', index=False)
                 else:
                     with open(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-group.tsv', 'a') as f:
-                        dt.to_csv(f, sep='\t', header=False, float_format='%.2f', index=False)
+                        dt.to_csv(f, sep='\t', header=False, float_format='%.3f', index=False)
                 idx += 1
 
             ldatagroup = []
@@ -303,7 +345,7 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
         """
         checking and storing each user with minimum posting events
         """
-        for user_id in tqdm(users_idx):
+        for user_id in users_idx:
             # print('\n\t\tuser:',user_id)
             df = dframe[dframe.user == user_id].copy()
             # print(df.shape)
@@ -386,13 +428,14 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
                 df.loc[df.ProbU_avg == 0, 'ProbU_avg'] = 1.  ## the entropy of zero probability is zero by convention
                 # df.loc[df.ProbTl_avg == 0,'ProbTl_avg']=1. ## the entropy of zero probability is zero by convention
                 # df.loc[df.HcondO_avg == 0,'HcondO_avg']=1. ## the entropy of zero probability is zero by convention
-                df.loc[df.MI_avg == 0, 'MI_avg'] = 1.  ## the entropy of zero probability is zero by convention
+
+                # df.loc[df.MI_avg == 0,'MI_avg']=1. ## the entropy of zero probability is zero by convention
                 df.loc[df.Tau_avg == 0, 'Tau_avg'] = 1.
 
                 df.loc[df.ProbU_max == 0, 'ProbU_max'] = 1.  ## the entropy of zero probability is zero by convention
                 # df.loc[df.ProbTl_max == 0,'ProbTl_max']=1. ## the entropy of zero probability is zero by convention
                 # df.loc[df.HcondO_max == 0,'HcondO_max']=1. ## the entropy of zero probability is zero by convention
-                df.loc[df.MI_max == 0, 'MI_max'] = 1.  ## the entropy of zero probability is zero by convention
+                # df.loc[df.MI_max == 0,'MI_max']=1. ## the entropy of zero probability is zero by convention
                 df.loc[df.Tau_max == 0, 'Tau_max'] = 1.
 
                 # print('\n','-'*10,'\nShape:',df[df.Tau_avg == 0],'\n\n',df.Tau_avg.describe(),'\n','-'*10)
@@ -416,13 +459,15 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
                 df.ProbU_avg = np.abs(-np.log2(df.ProbU_avg))
                 # df.ProbTl_avg=np.abs(-np.log2(df.ProbTl_avg))
                 # df.HcondO_avg=np.abs(-np.log2(df.HcondO_avg))
-                df.MI_avg = np.abs(np.log2(df.MI_avg))  # ====>>> NO NEGATIVE SIGNAL <<<==== !!!
+
+                # df.MI_avg=np.abs(np.log2(df.MI_avg)) # ====>>> NO NEGATIVE SIGNAL <<<==== !!!
                 df.Tau_avg = np.abs(-np.log2(df.Tau_avg))
 
                 df.ProbU_max = np.abs(-np.log2(df.ProbU_max))
                 # df.ProbTl_max=np.abs(-np.log2(df.ProbTl_max))
                 # df.HcondO_max=np.abs(-np.log2(df.HcondO_max))
-                df.MI_max = np.abs(np.log2(df.MI_max))  # ====>>> NO NEGATIVE SIGNAL <<<==== !!!
+
+                # df.MI_max=np.abs(np.log2(df.MI_max)) # ====>>> NO NEGATIVE SIGNAL <<<==== !!!
                 df.Tau_max = np.abs(-np.log2(df.Tau_max))
                 # --------------------------------------------------------------
                 df.loc[df.B == 0, 'B'] = 0.
@@ -436,13 +481,15 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
                 df.loc[df.ProbU_avg == 0, 'ProbU_avg'] = 0.
                 # df.loc[df.ProbTl_avg == 0, 'ProbTl_avg']=0.
                 # df.loc[df.HcondO_avg == 0, 'HcondO_avg']=0.
-                df.loc[df.MI_avg == 0, 'MI_avg'] = 0.
+
+                # df.loc[df.MI_avg == 0, 'MI_avg']=0.
                 df.loc[df.Tau_avg == 0, 'Tau_avg'] = 0.
 
                 df.loc[df.ProbU_max == 0, 'ProbU_max'] = 0.
                 # df.loc[df.ProbTl_max == 0, 'ProbTl_max']=0.
                 # df.loc[df.HcondO_max == 0, 'HcondO_max']=0.
-                df.loc[df.MI_max == 0, 'MI_max'] = 0.
+
+                # df.loc[df.MI_max == 0, 'MI_max']=0.
                 df.loc[df.Tau_max == 0, 'Tau_max'] = 0.
                 """
                 --------------------------------------------------------------- 
@@ -459,7 +506,7 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
                     dt['group'] = str(user_id) + '-' + str(fname)
                     cols_store = ['group'] + cols_store
                     dt[cols_store].to_csv(STORE_PATH + '/users/' + str(user_id) + '-' + str(fname) + '.tsv', sep='\t', \
-                                          index=False, header=True, float_format='%.2f')
+                                          index=False, header=True, float_format='%.3f')
 
                 data1 = df[cols1].describe(percentiles=[0.1, 0.5, 0.9]).values[1:, :]
 
@@ -494,10 +541,10 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
 
                         if not os.path.exists(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '.tsv'):
                             dt.to_csv(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '.tsv', sep='\t',
-                                      header=True, float_format='%.2f', index=False)
+                                      header=True, float_format='%.3f', index=False)
                         else:
                             with open(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '.tsv', 'a') as f:
-                                dt.to_csv(f, sep='\t', header=False, float_format='%.2f', index=False)
+                                dt.to_csv(f, sep='\t', header=False, float_format='%.3f', index=False)
                         idx += 1
                     idx = 0
                     for fname2 in cols1:
@@ -506,10 +553,10 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
 
                         if not os.path.exists(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-raw.tsv'):
                             dt.to_csv(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-raw.tsv', sep='\t',
-                                      header=True, float_format='%.2f', index=False)
+                                      header=True, float_format='%.3f', index=False)
                         else:
                             with open(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-raw.tsv', 'a') as f:
-                                dt.to_csv(f, sep='\t', header=False, index=False, float_format='%.2f')
+                                dt.to_csv(f, sep='\t', header=False, index=False, float_format='%.3f')
                         idx += 1
                     records = 0
 
@@ -620,20 +667,21 @@ if __name__ == '__main__':
     logger = Logger(os.getcwd() + "/logs")
 
     STORE_PATH = 'stimulus-bits/'
-
+    # path='/data/users/amsousa/Whatsapp/data/'
     path = './'
 
     if not os.path.exists(path + STORE_PATH):
         os.makedirs(path + STORE_PATH)
 
-    dgroup_info = pd.read_csv(path + 'dataset_gname_raw_info.csv', sep='\t', encoding='utf-8')
+    dgroup_info = pd.read_csv(path + 'dataset_raw_info.csv', sep='\t', encoding='utf-8')
+    # dgroup_info=pd.read_csv(path+'dataset_gname_raw_info.csv',sep='\t', encoding='utf-8')
 
-    N_PROC = 70
-
-    groups_idx = dgroup_info.gname.values
+    N_PROC = 4
+    groups_idx = dgroup_info.groupID.values  # groupID.values#gname.values
+    # groups_idx=dgroup_info.gname.values
     SIZE = groups_idx.size
     print('SIZE: ', SIZE)
-    lenght = int(np.ceil(SIZE / N_PROC))
+    lenght = np.int(np.ceil(SIZE / N_PROC))
     shares = [i * lenght for i in range(N_PROC)]
     index_slices = []
     for i in range(N_PROC):
@@ -642,6 +690,13 @@ if __name__ == '__main__':
         else:
             index_slices.append(groups_idx[shares[i]:])
 
+            # index_slices=[['556592507094-152086396']]
+    # index_slices=[['13134264254-154144618']]
+    # index_slices=[['17379733320-154096056']]
+    # index_slices=[['554599947927-151959352']]
+    # index_slices=[['5511949722517-152830261']]
+    # index_slices=[['558586062371-149072446']]
+    # index_slices=[['558585910888-148770249']]
     version = 1
     print('USERS: %d' % SIZE)
     multiprocessing_bits(logger, path, path + STORE_PATH, index_slices, version)

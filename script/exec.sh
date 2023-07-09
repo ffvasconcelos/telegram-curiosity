@@ -8,6 +8,7 @@ pip install matplotlib
 pip install biokit
 pip install statsmodels
 pip install tqdm
+pip install numba==0.50.1
 
 echo "-------------------------------------------------------------"
 echo "Running script 1"
