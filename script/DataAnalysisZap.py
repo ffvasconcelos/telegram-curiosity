@@ -676,12 +676,12 @@ if __name__ == '__main__':
     dgroup_info = pd.read_csv(path + 'dataset_gname_raw_info.csv', sep='\t', encoding='utf-8')
     # dgroup_info=pd.read_csv(path+'dataset_gname_raw_info.csv',sep='\t', encoding='utf-8')
 
-    N_PROC = 70
-    groups_idx = dgroup_info.groupID.values  # groupID.values#gname.values
+    N_PROC = 10
+    groups_idx = dgroup_info.gname.values  # groupID.values#gname.values
     # groups_idx=dgroup_info.gname.values
     SIZE = groups_idx.size
     print('SIZE: ', SIZE)
-    lenght = np.int(np.ceil(SIZE / N_PROC))
+    lenght = int(np.ceil(SIZE / N_PROC))
     shares = [i * lenght for i in range(N_PROC)]
     index_slices = []
     for i in range(N_PROC):

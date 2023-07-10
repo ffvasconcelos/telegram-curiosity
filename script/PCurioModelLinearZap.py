@@ -864,7 +864,7 @@ if __name__ == '__main__':
         print('\nNothing was done!....\n')
     groups_idx = np.array(list(set(groups_idx).difference(set(groups_idx_done))))
 
-    N_PROC = 70
+    N_PROC = 10
 
     print("Starting...")
 
