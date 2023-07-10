@@ -70,7 +70,8 @@ def group_formatter(df):
 if __name__ == "__main__":
     start = time.time()
     conn = psycopg2.connect(
-        host='localhost',
+        host='192.168.2.19',
+        # host='localhost',
         database='telegram_db',
         user='postgres',
         password='1234'
