@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 from logger import Logger
 from multiprocessing import Process
+from tqdm import tqdm
 
 
 def recording_files(list_dt, list_cols, STORE_PATH):
@@ -32,7 +33,7 @@ def recording_files(list_dt, list_cols, STORE_PATH):
 
 def entropy_compute_time(arr, delta):
     h = 0.
-    if type(arr) == np.float:
+    if type(arr) == float:
         prob = arr
         if prob == 0.:
             # prob=delta ## the entropy of zero probability is zero by convention
@@ -54,7 +55,7 @@ def entropy_compute_time(arr, delta):
 
 def entropy_compute(arr1):
     h = 0.
-    if type(arr1) == np.float:
+    if type(arr1) == float:
         prob = arr1
         if prob == 0.:
             h = 0.
@@ -96,7 +97,7 @@ def divide_arrays_by_cell(arr1, arr2):
     i = np.nonzero(arr2)[0]
     # print(arr1,arr1.dtype,arr2,arr2.dtype)
     if i.size == 0:
-        result = np.zeros(arr1.shape, dtype=np.float)
+        result = np.zeros(arr1.shape, dtype=float)
     else:
         result = arr1[i] / arr2[i]
     # print(result,result.dtype)
@@ -110,7 +111,7 @@ def divide_arrays_by_cell_scalar(arr1, arr2):
     i = np.nonzero(arr2)[0]  # get the list of index of non zero values from tuple
     # print(i,j,arr1,arr1.dtype,arr2,arr2.dtype)
     if i.size == 0:
-        result = np.zeros(arr1.shape, dtype=np.float)
+        result = np.zeros(arr1.shape, dtype=float)
     else:
         result = arr1 / arr2[i]
     # print(result,result.dtype)
@@ -180,7 +181,7 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
     col_st = ['user', 'avg', 'std', 'min', '10%', '50%', '90%', 'max']
     dict_dtype = {}
     for key in col_st:
-        dict_dtype[key] = np.float
+        dict_dtype[key] = float
     for i in range(len(cols1)):
         ldata.append([])
         ldatagroup.append([])
@@ -201,6 +202,7 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
     RECORDS_PERIOD = 1
     for fname in slices:
         # try:
+
         print('\n\t', fname, '\n')
         count += 1
         cols = ['user', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'Gu', 'H', 'I', 'L', 'M', 'N', \
@@ -220,41 +222,41 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
         """
         if dframe[dframe.user.isin(users_idx)].shape[0] >= 30:
             if dframe.J.dtype != np.int64:
-                dframe.J = dframe.J.str.split(',').apply(np.asarray, args=(np.int,))
+                dframe.J = dframe.J.str.split(',').apply(np.asarray, args=(int,))
             if dframe.P.dtype != np.float64:
-                dframe.P = dframe.P.str.split(',').apply(np.asarray, args=(np.float,))
+                dframe.P = dframe.P.str.split(',').apply(np.asarray, args=(float,))
             if dframe.O.dtype != np.int64:
-                dframe.O = dframe.O.str.split(',').apply(np.asarray, args=(np.int,))
+                dframe.O = dframe.O.str.split(',').apply(np.asarray, args=(int,))
             if dframe.Pu.dtype != np.float64:
-                dframe.Pu = dframe.Pu.str.split(',').apply(np.asarray, args=(np.float,))
+                dframe.Pu = dframe.Pu.str.split(',').apply(np.asarray, args=(float,))
             if dframe.Ou.dtype != np.int64:
-                dframe.Ou = dframe.Ou.str.split(',').apply(np.asarray, args=(np.int,))
+                dframe.Ou = dframe.Ou.str.split(',').apply(np.asarray, args=(int,))
             if dframe.N.dtype != np.int64:
-                dframe.N = dframe.N.str.split(',').apply(np.asarray, args=(np.int,))
+                dframe.N = dframe.N.str.split(',').apply(np.asarray, args=(int,))
 
             # dframe.ProbTl = dframe.ProbTl.astype(str)
-            # dframe.ProbTl = dframe.ProbTl.str.split(',').apply(np.asarray,args=(np.float,))
+            # dframe.ProbTl = dframe.ProbTl.str.split(',').apply(np.asarray,args=(float,))
             dframe.ProbU = dframe.ProbU.astype(str)
-            dframe.ProbU = dframe.ProbU.str.split(',').apply(np.asarray, args=(np.float,))
+            dframe.ProbU = dframe.ProbU.str.split(',').apply(np.asarray, args=(float,))
             dframe.Tau = dframe.Tau.astype(str)
-            dframe.Tau = dframe.Tau.str.split(',').apply(np.asarray, args=(np.float,))
+            dframe.Tau = dframe.Tau.str.split(',').apply(np.asarray, args=(float,))
             dframe.PindU = dframe.PindU.astype(str)
-            dframe.PindU = dframe.PindU.str.split(',').apply(np.asarray, args=(np.float,))
+            dframe.PindU = dframe.PindU.str.split(',').apply(np.asarray, args=(float,))
             dframe.PindK = dframe.PindK.astype(str)
-            dframe.PindK = dframe.PindK.str.split(',').apply(np.asarray, args=(np.float,))
+            dframe.PindK = dframe.PindK.str.split(',').apply(np.asarray, args=(float,))
             dframe.total = dframe.total.astype(str)
-            dframe.total = dframe.total.str.split(',').apply(np.asarray, args=(np.float,))
+            dframe.total = dframe.total.str.split(',').apply(np.asarray, args=(float,))
             dframe.ProbTl = dframe.ProbTl.astype(str)
-            dframe.ProbTl = dframe.ProbTl.str.split(',').apply(np.asarray, args=(np.float,))
+            dframe.ProbTl = dframe.ProbTl.str.split(',').apply(np.asarray, args=(float,))
 
             dframe.HcondO = dframe.HcondO.astype(str)
-            dframe.HcondO = dframe.HcondO.str.split(',').apply(np.asarray, args=(np.float,))
+            dframe.HcondO = dframe.HcondO.str.split(',').apply(np.asarray, args=(float,))
 
             dframe.PO = dframe.PO.astype(str)
-            dframe.PO = dframe.PO.str.split(',').apply(np.asarray, args=(np.float,))
+            dframe.PO = dframe.PO.str.split(',').apply(np.asarray, args=(float,))
 
             dframe.Hd_partial = dframe.Hd_partial.astype(str)
-            dframe.Hd_partial = dframe.Hd_partial.str.split(',').apply(np.asarray, args=(np.float,))
+            dframe.Hd_partial = dframe.Hd_partial.str.split(',').apply(np.asarray, args=(float,))
 
             dframe['PoHcondO'] = dframe.PO * dframe.HcondO
             dframe['MI_super'] = dframe['Hd_partial'] - dframe['PoHcondO']
@@ -345,7 +347,7 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
         """
         checking and storing each user with minimum posting events
         """
-        for user_id in users_idx:
+        for user_id in tqdm(users_idx):
             # print('\n\t\tuser:',user_id)
             df = dframe[dframe.user == user_id].copy()
             # print(df.shape)
@@ -676,7 +678,7 @@ if __name__ == '__main__':
     dgroup_info = pd.read_csv(path + 'dataset_gname_raw_info.csv', sep='\t', encoding='utf-8')
     # dgroup_info=pd.read_csv(path+'dataset_gname_raw_info.csv',sep='\t', encoding='utf-8')
 
-    N_PROC = 10
+    N_PROC = 70
     groups_idx = dgroup_info.gname.values  # groupID.values#gname.values
     # groups_idx=dgroup_info.gname.values
     SIZE = groups_idx.size
