@@ -210,388 +210,392 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
                 'ProbU', 'Tau', 'PO', 'Hd_partial', \
                 'HcondO', 'HCONDO', 'HD', 'Us', 'TotalU', 'total', 'timestamp']
 
-        dframe = pd.read_csv(path + '/stimulus-filter/' + \
-                             str(fname) + '.txt', sep='\t', names=cols, comment='#', \
-                             keep_default_na=True)
-        dframe.fillna(0., inplace=True)
+        if os.path.exists(path + "/stimulus-filter/" + str(fname) + '.txt'):
+            dframe = pd.read_csv(path + '/stimulus-filter/' + \
+                                 str(fname) + '.txt', sep='\t', names=cols, comment='#', \
+                                 keep_default_na=True)
+            dframe.fillna(0., inplace=True)
 
-        users_idx = dframe.user.unique()
+            users_idx = dframe.user.unique()
 
-        """ 
-        ------------------------------------------------------------------------------------
-        """
-        if dframe[dframe.user.isin(users_idx)].shape[0] >= 30:
-            if dframe.J.dtype != np.int64:
-                dframe.J = dframe.J.str.split(',').apply(np.asarray, args=(int,))
-            if dframe.P.dtype != np.float64:
-                dframe.P = dframe.P.str.split(',').apply(np.asarray, args=(float,))
-            if dframe.O.dtype != np.int64:
-                dframe.O = dframe.O.str.split(',').apply(np.asarray, args=(int,))
-            if dframe.Pu.dtype != np.float64:
-                dframe.Pu = dframe.Pu.str.split(',').apply(np.asarray, args=(float,))
-            if dframe.Ou.dtype != np.int64:
-                dframe.Ou = dframe.Ou.str.split(',').apply(np.asarray, args=(int,))
-            if dframe.N.dtype != np.int64:
-                dframe.N = dframe.N.str.split(',').apply(np.asarray, args=(int,))
+            """ 
+            ------------------------------------------------------------------------------------
+            """
+            if dframe[dframe.user.isin(users_idx)].shape[0] >= 30:
+                if dframe.J.dtype != np.int64:
+                    dframe.J = dframe.J.str.split(',').apply(np.asarray, args=(int,))
+                if dframe.P.dtype != np.float64:
+                    dframe.P = dframe.P.str.split(',').apply(np.asarray, args=(float,))
+                if dframe.O.dtype != np.int64:
+                    dframe.O = dframe.O.str.split(',').apply(np.asarray, args=(int,))
+                if dframe.Pu.dtype != np.float64:
+                    dframe.Pu = dframe.Pu.str.split(',').apply(np.asarray, args=(float,))
+                if dframe.Ou.dtype != np.int64:
+                    dframe.Ou = dframe.Ou.str.split(',').apply(np.asarray, args=(int,))
+                if dframe.N.dtype != np.int64:
+                    dframe.N = dframe.N.str.split(',').apply(np.asarray, args=(int,))
 
-            # dframe.ProbTl = dframe.ProbTl.astype(str)
-            # dframe.ProbTl = dframe.ProbTl.str.split(',').apply(np.asarray,args=(float,))
-            dframe.ProbU = dframe.ProbU.astype(str)
-            dframe.ProbU = dframe.ProbU.str.split(',').apply(np.asarray, args=(float,))
-            dframe.Tau = dframe.Tau.astype(str)
-            dframe.Tau = dframe.Tau.str.split(',').apply(np.asarray, args=(float,))
-            dframe.PindU = dframe.PindU.astype(str)
-            dframe.PindU = dframe.PindU.str.split(',').apply(np.asarray, args=(float,))
-            dframe.PindK = dframe.PindK.astype(str)
-            dframe.PindK = dframe.PindK.str.split(',').apply(np.asarray, args=(float,))
-            dframe.total = dframe.total.astype(str)
-            dframe.total = dframe.total.str.split(',').apply(np.asarray, args=(float,))
-            dframe.ProbTl = dframe.ProbTl.astype(str)
-            dframe.ProbTl = dframe.ProbTl.str.split(',').apply(np.asarray, args=(float,))
+                # dframe.ProbTl = dframe.ProbTl.astype(str)
+                # dframe.ProbTl = dframe.ProbTl.str.split(',').apply(np.asarray,args=(float,))
+                dframe.ProbU = dframe.ProbU.astype(str)
+                dframe.ProbU = dframe.ProbU.str.split(',').apply(np.asarray, args=(float,))
+                dframe.Tau = dframe.Tau.astype(str)
+                dframe.Tau = dframe.Tau.str.split(',').apply(np.asarray, args=(float,))
+                dframe.PindU = dframe.PindU.astype(str)
+                dframe.PindU = dframe.PindU.str.split(',').apply(np.asarray, args=(float,))
+                dframe.PindK = dframe.PindK.astype(str)
+                dframe.PindK = dframe.PindK.str.split(',').apply(np.asarray, args=(float,))
+                dframe.total = dframe.total.astype(str)
+                dframe.total = dframe.total.str.split(',').apply(np.asarray, args=(float,))
+                dframe.ProbTl = dframe.ProbTl.astype(str)
+                dframe.ProbTl = dframe.ProbTl.str.split(',').apply(np.asarray, args=(float,))
 
-            dframe.HcondO = dframe.HcondO.astype(str)
-            dframe.HcondO = dframe.HcondO.str.split(',').apply(np.asarray, args=(float,))
+                dframe.HcondO = dframe.HcondO.astype(str)
+                dframe.HcondO = dframe.HcondO.str.split(',').apply(np.asarray, args=(float,))
 
-            dframe.PO = dframe.PO.astype(str)
-            dframe.PO = dframe.PO.str.split(',').apply(np.asarray, args=(float,))
+                dframe.PO = dframe.PO.astype(str)
+                dframe.PO = dframe.PO.str.split(',').apply(np.asarray, args=(float,))
 
-            dframe.Hd_partial = dframe.Hd_partial.astype(str)
-            dframe.Hd_partial = dframe.Hd_partial.str.split(',').apply(np.asarray, args=(float,))
+                dframe.Hd_partial = dframe.Hd_partial.astype(str)
+                dframe.Hd_partial = dframe.Hd_partial.str.split(',').apply(np.asarray, args=(float,))
 
-            dframe['PoHcondO'] = dframe.PO * dframe.HcondO
-            dframe['MI_super'] = dframe['Hd_partial'] - dframe['PoHcondO']
-            # get the maximum between 0 and every value of MI_super array
-            dframe['MI_super'] = np.vectorize(maximum_array, otypes=[object])(dframe['MI_super'])
-            dframe['MI_super_avg'] = dframe['MI_super'].apply(np.mean)
-            dframe['MI_super_max'] = dframe['MI_super'].apply(np.max)
+                dframe['PoHcondO'] = dframe.PO * dframe.HcondO
+                dframe['MI_super'] = dframe['Hd_partial'] - dframe['PoHcondO']
+                # get the maximum between 0 and every value of MI_super array
+                dframe['MI_super'] = np.vectorize(maximum_array, otypes=[object])(dframe['MI_super'])
+                dframe['MI_super_avg'] = dframe['MI_super'].apply(np.mean)
+                dframe['MI_super_max'] = dframe['MI_super'].apply(np.max)
 
-            # take the probabilities with the largest couting of numerator
-            # dframe['ProbU_count']=np.vectorize(largest_count_to_surprisal_compute)(dframe['ProbU'],dframe['PindK'])
-            # dframe['ProbTl_count']=np.vectorize(largest_count_to_surprisal_compute)(dframe['ProbTl'],dframe['total'])
-            # dframe['Tau_count']=np.vectorize(tau_largest_count_to_surprisal_compute)(dframe['ProbU'],dframe['Tau'])# getting the tau of max count of ProbU
-            # changing the couting to probabilities
+                # take the probabilities with the largest couting of numerator
+                # dframe['ProbU_count']=np.vectorize(largest_count_to_surprisal_compute)(dframe['ProbU'],dframe['PindK'])
+                # dframe['ProbTl_count']=np.vectorize(largest_count_to_surprisal_compute)(dframe['ProbTl'],dframe['total'])
+                # dframe['Tau_count']=np.vectorize(tau_largest_count_to_surprisal_compute)(dframe['ProbU'],dframe['Tau'])# getting the tau of max count of ProbU
+                # changing the couting to probabilities
 
-            dframe['ProbU'] = np.vectorize(divide_arrays_by_cell, otypes=[object])(dframe['ProbU'], dframe['PindK'])
-            dframe['PindU'] = np.vectorize(divide_arrays_by_cell_scalar, otypes=[object])(dframe['PindU'],
-                                                                                          dframe['total'])
-            dframe['ProbTl'] = np.vectorize(divide_arrays_by_cell, otypes=[object])(dframe['ProbTl'], dframe['total'])
-            dframe['MI'] = np.vectorize(divide_arrays_by_cell, otypes=[object])(dframe['ProbU'], dframe['PindU'])
-            dframe['HcondO'] = np.vectorize(remove_zero, otypes=[object])(dframe['HcondO'])
-            # ************************************************************
-            # applying the logarithm and the maximum between the result of
-            # log for MI and 0 to avoid negative numbers
-            dframe.MI = np.vectorize(logarithm_array, otypes=[object])(dframe['MI'])  # ,dframe['ProbTl'])
-            # print(dframe.MI.values)
-            # ************************************************************
-            dframe['J_avg'] = dframe.J.apply(np.mean)
-            dframe['O_sum'] = dframe.O.apply(np.sum)
-            dframe['P_avg'] = dframe.P.apply(np.mean)
-            dframe['Ou_sum'] = dframe.Ou.apply(np.sum)
-            dframe['Pu_avg'] = dframe.Pu.apply(np.mean)
+                dframe['ProbU'] = np.vectorize(divide_arrays_by_cell, otypes=[object])(dframe['ProbU'], dframe['PindK'])
+                dframe['PindU'] = np.vectorize(divide_arrays_by_cell_scalar, otypes=[object])(dframe['PindU'],
+                                                                                              dframe['total'])
+                dframe['ProbTl'] = np.vectorize(divide_arrays_by_cell, otypes=[object])(dframe['ProbTl'], dframe['total'])
+                dframe['MI'] = np.vectorize(divide_arrays_by_cell, otypes=[object])(dframe['ProbU'], dframe['PindU'])
+                dframe['HcondO'] = np.vectorize(remove_zero, otypes=[object])(dframe['HcondO'])
+                # ************************************************************
+                # applying the logarithm and the maximum between the result of
+                # log for MI and 0 to avoid negative numbers
+                dframe.MI = np.vectorize(logarithm_array, otypes=[object])(dframe['MI'])  # ,dframe['ProbTl'])
+                # print(dframe.MI.values)
+                # ************************************************************
+                dframe['J_avg'] = dframe.J.apply(np.mean)
+                dframe['O_sum'] = dframe.O.apply(np.sum)
+                dframe['P_avg'] = dframe.P.apply(np.mean)
+                dframe['Ou_sum'] = dframe.Ou.apply(np.sum)
+                dframe['Pu_avg'] = dframe.Pu.apply(np.mean)
 
-            # dframe['ProbTl_avg']=dframe.ProbTl.apply(np.mean)
-            dframe['ProbU_avg'] = dframe.ProbU.apply(np.mean)
-            dframe['HcondO_avg'] = dframe.HcondO.apply(np.mean)
-            dframe['MI_avg'] = dframe.MI.apply(np.mean)  # <<<-----------
-            dframe['Tau_avg'] = dframe.Tau.apply(np.mean)
+                # dframe['ProbTl_avg']=dframe.ProbTl.apply(np.mean)
+                dframe['ProbU_avg'] = dframe.ProbU.apply(np.mean)
+                dframe['HcondO_avg'] = dframe.HcondO.apply(np.mean)
+                dframe['MI_avg'] = dframe.MI.apply(np.mean)  # <<<-----------
+                dframe['Tau_avg'] = dframe.Tau.apply(np.mean)
 
-            # dframe['ProbTl_max']=dframe.ProbTl.apply(np.max)
-            dframe['ProbU_max'] = dframe.ProbU.apply(np.min)
-            dframe['HcondO_max'] = dframe.HcondO.apply(np.min)
-            dframe['MI_max'] = dframe.MI.apply(np.max)  # <<<-----------
-            dframe['Tau_max'] = np.vectorize(tau_largest_count_to_surprisal_compute)(dframe['ProbU'], dframe[
-                'Tau'])  # getting the tau of max ProbU
+                # dframe['ProbTl_max']=dframe.ProbTl.apply(np.max)
+                dframe['ProbU_max'] = dframe.ProbU.apply(np.min)
+                dframe['HcondO_max'] = dframe.HcondO.apply(np.min)
+                dframe['MI_max'] = dframe.MI.apply(np.max)  # <<<-----------
+                dframe['Tau_max'] = np.vectorize(tau_largest_count_to_surprisal_compute)(dframe['ProbU'], dframe[
+                    'Tau'])  # getting the tau of max ProbU
 
-            # dframe['HCONDO_group']=dframe['HCONDO']
-            # dframe['MI_group']=dframe['HD']-dframe['HCONDO']
+                # dframe['HCONDO_group']=dframe['HCONDO']
+                # dframe['MI_group']=dframe['HD']-dframe['HCONDO']
 
-            dframe = dframe[dframe.user.isin(users_idx)]
-            datagroup = dframe[cols1].describe(percentiles=[0.1, 0.5, 0.9]).values[1:, :]
-            # print(dframe[cols1].describe(percentiles=[0.1,0.5,0.9]))
-            # return
-
-            users = np.array([str(fname)] * datagroup.shape[1]).reshape((1, datagroup.shape[1]))
-            datagroup = np.append(users, datagroup, axis=0)
-            # print(datagroup)
-            # return datagroup
-            for i in range(len(cols1)):
-                # print(i,datagroup[:,i])
-                ldatagroup[i].append(datagroup[:, i])
-
-            idx = 0
-            for fname2 in cols1:
-                dt = pd.DataFrame(np.array(ldatagroup[idx]), columns=col_st)
-                # print(fname2,'\n',dt[['user','avg','min','10%','50%','90%','max',]].round(2),'\n',dt.info())
+                dframe = dframe[dframe.user.isin(users_idx)]
+                datagroup = dframe[cols1].describe(percentiles=[0.1, 0.5, 0.9]).values[1:, :]
+                # print(dframe[cols1].describe(percentiles=[0.1,0.5,0.9]))
                 # return
 
-                # if not 'user' in dict_dtype:
-                dict_dtype['user'] = str
-                dt = dt.astype(dict_dtype)  #
-                # print(fname2,'\n',dt[['user','avg','min','10%','50%','90%','max',]].round(2),'\n',dt.info())
-                # return
+                users = np.array([str(fname)] * datagroup.shape[1]).reshape((1, datagroup.shape[1]))
+                datagroup = np.append(users, datagroup, axis=0)
+                # print(datagroup)
+                # return datagroup
+                for i in range(len(cols1)):
+                    # print(i,datagroup[:,i])
+                    ldatagroup[i].append(datagroup[:, i])
 
-                if not os.path.exists(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-group.tsv'):
-                    dt.to_csv(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-group.tsv', sep='\t',
-                              header=True, float_format='%.3f', index=False)
+                idx = 0
+                for fname2 in cols1:
+                    dt = pd.DataFrame(np.array(ldatagroup[idx]), columns=col_st)
+                    # print(fname2,'\n',dt[['user','avg','min','10%','50%','90%','max',]].round(2),'\n',dt.info())
+                    # return
+
+                    # if not 'user' in dict_dtype:
+                    dict_dtype['user'] = str
+                    dt = dt.astype(dict_dtype)  #
+                    # print(fname2,'\n',dt[['user','avg','min','10%','50%','90%','max',]].round(2),'\n',dt.info())
+                    # return
+
+                    if not os.path.exists(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-group.tsv'):
+                        dt.to_csv(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-group.tsv', sep='\t',
+                                  header=True, float_format='%.3f', index=False)
+                    else:
+                        with open(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-group.tsv', 'a') as f:
+                            dt.to_csv(f, sep='\t', header=False, float_format='%.3f', index=False)
+                    idx += 1
+
+                ldatagroup = []
+                for i in range(len(cols1)):
+                    ldatagroup.append([])
+            """
+            -----------------------------------------------------------------
+            """
+            """
+            checking and storing each user with minimum posting events
+            """
+            for user_id in tqdm(users_idx):
+                # print('\n\t\tuser:',user_id)
+                df = dframe[dframe.user == user_id].copy()
+                # print(df.shape)
+
+                if df.shape[0] >= 30:
+                    for values in df.ProbU.values:
+                        # print(values,type(values))#
+                        if type(values) != np.ndarray:
+                            values = [values]
+                        # print(values,type(values),np.isnan(values))
+                        pcvalues += list(values)
+
+                    # for values in df.ProbTl.values:
+                    #     if type(values) != np.ndarray:
+                    #         values=[values]
+                    #     prvalues+=list(values)
+
+                    for tau in df.Tau.values:
+                        if type(tau) != np.ndarray:
+                            tau = [tau]
+                        tauvalues += list(tau)
+
+                    data2 = df[cols1].describe(percentiles=[0.1, 0.5, 0.9]).values[1:, :]
+                    # print(df[cols1].describe(percentiles=[0.1,0.5,0.9]))
+                    # return
+
+                    users = np.array([str(user_id) + '-' + str(fname)] * data2.shape[1]).reshape((1, data2.shape[1]))
+                    data2 = np.append(users, data2, axis=0)
+                    # print(data2)
+                    #                   return data2
+                    for i in range(len(cols1)):
+                        # print(i,data2[:,i])
+                        ldata2[i].append(data2[:, i])
+                    i = 0
+
+                    data8 = df[cols1].corr('pearson')
+                    data9 = df[cols1].corr('spearman')
+
+                    ldata8[i].append(str(user_id) + '-' + str(fname))
+                    ldata9[i].append(str(user_id) + '-' + str(fname))
+                    i += 1
+                    for row in range(1, len(cols1)):
+                        for col in range(0, row):
+                            ldata8[i].append(data8.values[row, col])
+                            ldata9[i].append(data9.values[row, col])
+                            i += 1
+                    i = 0
+                    """
+                    Changing the metrics for probabilities
+                    """
+                    df.C = df.C / df.B
+                    df.D = df.D / df.O_sum  #
+                    df.F = df.F / TIME_WINDOW
+
+                    # df.Tau_count=df.Tau_count/TIME_WINDOW
+                    df.Tau_max = df.Tau_max / TIME_WINDOW
+                    df.Tau_avg = df.Tau_avg / TIME_WINDOW
+
+                    df.J_avg = df.J_avg / TIME_WINDOW
+                    if df.D.isnull().any():
+                        print()
+                        print(df[df.D.isnull()])
+                        print()
+                        logger.log_warn(str(fname), str(df[df.D.isnull()].values))
+                        df.D.fillna(0, inplace=True)
+
+                    df.I = df.I / 5.  # df.B
+                    df.H = df.H / 5.  # df.B
+
+                    df.loc[df.B == 0, 'B'] = 1.
+                    """
+                    Converting probability zero to maximum surprisal (maximum entropy)
+                    """
+                    df.loc[df.C == 0, 'C'] = df.loc[df.C == 0, 'B']
+                    df.loc[df.F == 0, 'F'] = TIME_WINDOW
+                    df.loc[df.D == 0, 'D'] = df.loc[df.D == 0, 'O_sum']
+
+                    df.loc[df.J_avg == 0, 'J_avg'] = TIME_WINDOW
+
+                    df.loc[df.ProbU_avg == 0, 'ProbU_avg'] = 1.  ## the entropy of zero probability is zero by convention
+                    # df.loc[df.ProbTl_avg == 0,'ProbTl_avg']=1. ## the entropy of zero probability is zero by convention
+                    # df.loc[df.HcondO_avg == 0,'HcondO_avg']=1. ## the entropy of zero probability is zero by convention
+
+                    # df.loc[df.MI_avg == 0,'MI_avg']=1. ## the entropy of zero probability is zero by convention
+                    df.loc[df.Tau_avg == 0, 'Tau_avg'] = 1.
+
+                    df.loc[df.ProbU_max == 0, 'ProbU_max'] = 1.  ## the entropy of zero probability is zero by convention
+                    # df.loc[df.ProbTl_max == 0,'ProbTl_max']=1. ## the entropy of zero probability is zero by convention
+                    # df.loc[df.HcondO_max == 0,'HcondO_max']=1. ## the entropy of zero probability is zero by convention
+                    # df.loc[df.MI_max == 0,'MI_max']=1. ## the entropy of zero probability is zero by convention
+                    df.loc[df.Tau_max == 0, 'Tau_max'] = 1.
+
+                    # print('\n','-'*10,'\nShape:',df[df.Tau_avg == 0],'\n\n',df.Tau_avg.describe(),'\n','-'*10)
+
+                    df.loc[df.H == 0, 'H'] = 1.
+                    df.loc[df.I == 0, 'I'] = 1.
+                    """
+                    Changing the probabilities of metrics in bits via surprisal
+                    """
+                    df.B = np.log2(df.B)
+                    df.C = np.abs(-np.log2(df.C))  # positive bits
+                    df.D = np.abs(-np.log2(df.D))  # positive bits
+                    df.F = np.abs(-np.log2(df.F))  # positive bits
+                    df.J_avg = np.abs(-np.log2(df.J_avg))  # positive bits
+
+                    df.H = -np.log2(df.H)
+                    df.I = -np.log2(df.I)
+                    df.P_avg = np.abs(-np.log2(df.P_avg))
+                    df.Pu_avg = np.abs(-np.log2(df.Pu_avg))
+
+                    df.ProbU_avg = np.abs(-np.log2(df.ProbU_avg))
+                    # df.ProbTl_avg=np.abs(-np.log2(df.ProbTl_avg))
+                    # df.HcondO_avg=np.abs(-np.log2(df.HcondO_avg))
+
+                    # df.MI_avg=np.abs(np.log2(df.MI_avg)) # ====>>> NO NEGATIVE SIGNAL <<<==== !!!
+                    df.Tau_avg = np.abs(-np.log2(df.Tau_avg))
+
+                    df.ProbU_max = np.abs(-np.log2(df.ProbU_max))
+                    # df.ProbTl_max=np.abs(-np.log2(df.ProbTl_max))
+                    # df.HcondO_max=np.abs(-np.log2(df.HcondO_max))
+
+                    # df.MI_max=np.abs(np.log2(df.MI_max)) # ====>>> NO NEGATIVE SIGNAL <<<==== !!!
+                    df.Tau_max = np.abs(-np.log2(df.Tau_max))
+                    # --------------------------------------------------------------
+                    df.loc[df.B == 0, 'B'] = 0.
+                    df.loc[df.C == 0, 'C'] = 0.
+                    df.loc[df.D == 0, 'D'] = 0.
+                    df.loc[df.F == 0, 'D'] = 0.
+                    df.loc[df.H == 0, 'H'] = 0.
+                    df.loc[df.I == 0, 'I'] = 0.
+                    df.loc[df.J_avg == 0, 'J_avg'] = 0.
+
+                    df.loc[df.ProbU_avg == 0, 'ProbU_avg'] = 0.
+                    # df.loc[df.ProbTl_avg == 0, 'ProbTl_avg']=0.
+                    # df.loc[df.HcondO_avg == 0, 'HcondO_avg']=0.
+
+                    # df.loc[df.MI_avg == 0, 'MI_avg']=0.
+                    df.loc[df.Tau_avg == 0, 'Tau_avg'] = 0.
+
+                    df.loc[df.ProbU_max == 0, 'ProbU_max'] = 0.
+                    # df.loc[df.ProbTl_max == 0, 'ProbTl_max']=0.
+                    # df.loc[df.HcondO_max == 0, 'HcondO_max']=0.
+
+                    # df.loc[df.MI_max == 0, 'MI_max']=0.
+                    df.loc[df.Tau_max == 0, 'Tau_max'] = 0.
+                    """
+                    --------------------------------------------------------------- 
+                    """
+                    # users_idx=df.groupby(by=['user']).count().index.values
+                    # print(users_idx)
+                    if df[df.user.isin([user_id])].shape[0] >= 30:
+                        cols_store = ['user', 'C', 'D', 'F', 'G', 'Gu', 'H', 'I', 'J_avg', 'P_avg', 'Pu_avg', \
+                                      'ProbU_avg', 'MI_super_avg', 'MI_avg', 'Tau_avg', \
+                                      'ProbU_max', 'MI_super_max', 'MI_max', 'Tau_max', \
+                                      'HcondO_avg', 'HcondO_max', 'L', 'timestamp']  # 'HCONDO_group','MI_group',\
+                        # 'ProbTl_avg','ProbTl_max',
+                        dt = df[df.user.isin([user_id])][cols_store].copy()
+                        dt['group'] = str(user_id) + '-' + str(fname)
+                        cols_store = ['group'] + cols_store
+                        dt[cols_store].to_csv(STORE_PATH + '/users/' + str(user_id) + '-' + str(fname) + '.tsv', sep='\t', \
+                                              index=False, header=True, float_format='%.3f')
+
+                    data1 = df[cols1].describe(percentiles=[0.1, 0.5, 0.9]).values[1:, :]
+
+                    users = np.array([str(user_id) + '-' + str(fname)] * data1.shape[1]).reshape((1, data1.shape[1]))
+                    data1 = np.append(users, data1, axis=0)
+
+                    for i in range(len(cols1)):
+                        ldata[i].append(data1[:, i])
+                    i = 0
+
+                    data10 = df[cols1].corr('pearson')
+                    data11 = df[cols1].corr('spearman')
+
+                    ldata10[i].append(str(user_id) + '-' + str(fname))
+                    ldata11[i].append(str(user_id) + '-' + str(fname))
+                    i += 1
+                    for row in range(1, len(cols1)):
+                        for col in range(0, row):
+                            ldata10[i].append(data10.values[row, col])
+                            ldata11[i].append(data11.values[row, col])
+                            i += 1
+
+                    logger.log_done(str(user_id) + '-' + str(fname))
+                    records += 1
+
+                    if records % RECORDS_PERIOD == 0:
+                        # print("RECORDS: ",records)
+                        idx = 0
+                        for fname2 in cols1:
+                            dt = pd.DataFrame(np.array(ldata[idx]), columns=col_st)
+                            dt = dt.astype(dict_dtype)  # {'user': str})
+
+                            if not os.path.exists(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '.tsv'):
+                                dt.to_csv(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '.tsv', sep='\t',
+                                          header=True, float_format='%.3f', index=False)
+                            else:
+                                with open(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '.tsv', 'a') as f:
+                                    dt.to_csv(f, sep='\t', header=False, float_format='%.3f', index=False)
+                            idx += 1
+                        idx = 0
+                        for fname2 in cols1:
+                            dt = pd.DataFrame(np.array(ldata2[idx]), columns=col_st)
+                            dt = dt.astype(dict_dtype)  # {'user': str})
+
+                            if not os.path.exists(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-raw.tsv'):
+                                dt.to_csv(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-raw.tsv', sep='\t',
+                                          header=True, float_format='%.3f', index=False)
+                            else:
+                                with open(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-raw.tsv', 'a') as f:
+                                    dt.to_csv(f, sep='\t', header=False, index=False, float_format='%.3f')
+                            idx += 1
+                        records = 0
+
+                        ldata = []
+                        for i in range(len(cols1)):
+                            ldata.append([])
+                        ldata2 = []
+                        for i in range(len(cols1)):
+                            ldata2.append([])
+
+                        list_dt = [ldata10, ldata11, ldata8, ldata9]
+                        list_cols = [cols_corrs, cols_corrs]
+
+                        recording_files(list_dt, list_cols, STORE_PATH)
+
+                        ldata10, ldata11 = [], []
+                        for i in range(len(cols_corrs)):
+                            ldata10.append([])
+                            ldata11.append([])
+
+                        ldata8, ldata9 = [], []
+                        for i in range(len(cols_corrs)):
+                            ldata8.append([])
+                            ldata9.append([])
                 else:
-                    with open(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-group.tsv', 'a') as f:
-                        dt.to_csv(f, sep='\t', header=False, float_format='%.3f', index=False)
-                idx += 1
+                    logger.log_warn(str(user_id) + '-' + str(fname), 'user with posting not enought...')
+                    # logger.log_warn(str(fname), 'group with users not enought...')
+        #                break
+        # except Exception as e:
+        #     print(e,row,col)
+        #     print()
+        #     logger.log_warn(str(fname), e)
+        # return
+        else:
+            print('\n\t', fname, 'not processed by curious model linear\n')
 
-            ldatagroup = []
-            for i in range(len(cols1)):
-                ldatagroup.append([])
-        """
-        -----------------------------------------------------------------
-        """
-        """
-        checking and storing each user with minimum posting events
-        """
-        for user_id in tqdm(users_idx):
-            # print('\n\t\tuser:',user_id)
-            df = dframe[dframe.user == user_id].copy()
-            # print(df.shape)
-
-            if df.shape[0] >= 30:
-                for values in df.ProbU.values:
-                    # print(values,type(values))#
-                    if type(values) != np.ndarray:
-                        values = [values]
-                    # print(values,type(values),np.isnan(values))
-                    pcvalues += list(values)
-
-                # for values in df.ProbTl.values:
-                #     if type(values) != np.ndarray:
-                #         values=[values]
-                #     prvalues+=list(values)
-
-                for tau in df.Tau.values:
-                    if type(tau) != np.ndarray:
-                        tau = [tau]
-                    tauvalues += list(tau)
-
-                data2 = df[cols1].describe(percentiles=[0.1, 0.5, 0.9]).values[1:, :]
-                # print(df[cols1].describe(percentiles=[0.1,0.5,0.9]))
-                # return
-
-                users = np.array([str(user_id) + '-' + str(fname)] * data2.shape[1]).reshape((1, data2.shape[1]))
-                data2 = np.append(users, data2, axis=0)
-                # print(data2)
-                #                   return data2
-                for i in range(len(cols1)):
-                    # print(i,data2[:,i])
-                    ldata2[i].append(data2[:, i])
-                i = 0
-
-                data8 = df[cols1].corr('pearson')
-                data9 = df[cols1].corr('spearman')
-
-                ldata8[i].append(str(user_id) + '-' + str(fname))
-                ldata9[i].append(str(user_id) + '-' + str(fname))
-                i += 1
-                for row in range(1, len(cols1)):
-                    for col in range(0, row):
-                        ldata8[i].append(data8.values[row, col])
-                        ldata9[i].append(data9.values[row, col])
-                        i += 1
-                i = 0
-                """
-                Changing the metrics for probabilities
-                """
-                df.C = df.C / df.B
-                df.D = df.D / df.O_sum  #
-                df.F = df.F / TIME_WINDOW
-
-                # df.Tau_count=df.Tau_count/TIME_WINDOW
-                df.Tau_max = df.Tau_max / TIME_WINDOW
-                df.Tau_avg = df.Tau_avg / TIME_WINDOW
-
-                df.J_avg = df.J_avg / TIME_WINDOW
-                if df.D.isnull().any():
-                    print()
-                    print(df[df.D.isnull()])
-                    print()
-                    logger.log_warn(str(fname), str(df[df.D.isnull()].values))
-                    df.D.fillna(0, inplace=True)
-
-                df.I = df.I / 5.  # df.B
-                df.H = df.H / 5.  # df.B
-
-                df.loc[df.B == 0, 'B'] = 1.
-                """
-                Converting probability zero to maximum surprisal (maximum entropy)
-                """
-                df.loc[df.C == 0, 'C'] = df.loc[df.C == 0, 'B']
-                df.loc[df.F == 0, 'F'] = TIME_WINDOW
-                df.loc[df.D == 0, 'D'] = df.loc[df.D == 0, 'O_sum']
-
-                df.loc[df.J_avg == 0, 'J_avg'] = TIME_WINDOW
-
-                df.loc[df.ProbU_avg == 0, 'ProbU_avg'] = 1.  ## the entropy of zero probability is zero by convention
-                # df.loc[df.ProbTl_avg == 0,'ProbTl_avg']=1. ## the entropy of zero probability is zero by convention
-                # df.loc[df.HcondO_avg == 0,'HcondO_avg']=1. ## the entropy of zero probability is zero by convention
-
-                # df.loc[df.MI_avg == 0,'MI_avg']=1. ## the entropy of zero probability is zero by convention
-                df.loc[df.Tau_avg == 0, 'Tau_avg'] = 1.
-
-                df.loc[df.ProbU_max == 0, 'ProbU_max'] = 1.  ## the entropy of zero probability is zero by convention
-                # df.loc[df.ProbTl_max == 0,'ProbTl_max']=1. ## the entropy of zero probability is zero by convention
-                # df.loc[df.HcondO_max == 0,'HcondO_max']=1. ## the entropy of zero probability is zero by convention
-                # df.loc[df.MI_max == 0,'MI_max']=1. ## the entropy of zero probability is zero by convention
-                df.loc[df.Tau_max == 0, 'Tau_max'] = 1.
-
-                # print('\n','-'*10,'\nShape:',df[df.Tau_avg == 0],'\n\n',df.Tau_avg.describe(),'\n','-'*10)
-
-                df.loc[df.H == 0, 'H'] = 1.
-                df.loc[df.I == 0, 'I'] = 1.
-                """
-                Changing the probabilities of metrics in bits via surprisal
-                """
-                df.B = np.log2(df.B)
-                df.C = np.abs(-np.log2(df.C))  # positive bits
-                df.D = np.abs(-np.log2(df.D))  # positive bits
-                df.F = np.abs(-np.log2(df.F))  # positive bits
-                df.J_avg = np.abs(-np.log2(df.J_avg))  # positive bits
-
-                df.H = -np.log2(df.H)
-                df.I = -np.log2(df.I)
-                df.P_avg = np.abs(-np.log2(df.P_avg))
-                df.Pu_avg = np.abs(-np.log2(df.Pu_avg))
-
-                df.ProbU_avg = np.abs(-np.log2(df.ProbU_avg))
-                # df.ProbTl_avg=np.abs(-np.log2(df.ProbTl_avg))
-                # df.HcondO_avg=np.abs(-np.log2(df.HcondO_avg))
-
-                # df.MI_avg=np.abs(np.log2(df.MI_avg)) # ====>>> NO NEGATIVE SIGNAL <<<==== !!!
-                df.Tau_avg = np.abs(-np.log2(df.Tau_avg))
-
-                df.ProbU_max = np.abs(-np.log2(df.ProbU_max))
-                # df.ProbTl_max=np.abs(-np.log2(df.ProbTl_max))
-                # df.HcondO_max=np.abs(-np.log2(df.HcondO_max))
-
-                # df.MI_max=np.abs(np.log2(df.MI_max)) # ====>>> NO NEGATIVE SIGNAL <<<==== !!!
-                df.Tau_max = np.abs(-np.log2(df.Tau_max))
-                # --------------------------------------------------------------
-                df.loc[df.B == 0, 'B'] = 0.
-                df.loc[df.C == 0, 'C'] = 0.
-                df.loc[df.D == 0, 'D'] = 0.
-                df.loc[df.F == 0, 'D'] = 0.
-                df.loc[df.H == 0, 'H'] = 0.
-                df.loc[df.I == 0, 'I'] = 0.
-                df.loc[df.J_avg == 0, 'J_avg'] = 0.
-
-                df.loc[df.ProbU_avg == 0, 'ProbU_avg'] = 0.
-                # df.loc[df.ProbTl_avg == 0, 'ProbTl_avg']=0.
-                # df.loc[df.HcondO_avg == 0, 'HcondO_avg']=0.
-
-                # df.loc[df.MI_avg == 0, 'MI_avg']=0.
-                df.loc[df.Tau_avg == 0, 'Tau_avg'] = 0.
-
-                df.loc[df.ProbU_max == 0, 'ProbU_max'] = 0.
-                # df.loc[df.ProbTl_max == 0, 'ProbTl_max']=0.
-                # df.loc[df.HcondO_max == 0, 'HcondO_max']=0.
-
-                # df.loc[df.MI_max == 0, 'MI_max']=0.
-                df.loc[df.Tau_max == 0, 'Tau_max'] = 0.
-                """
-                --------------------------------------------------------------- 
-                """
-                # users_idx=df.groupby(by=['user']).count().index.values
-                # print(users_idx)
-                if df[df.user.isin([user_id])].shape[0] >= 30:
-                    cols_store = ['user', 'C', 'D', 'F', 'G', 'Gu', 'H', 'I', 'J_avg', 'P_avg', 'Pu_avg', \
-                                  'ProbU_avg', 'MI_super_avg', 'MI_avg', 'Tau_avg', \
-                                  'ProbU_max', 'MI_super_max', 'MI_max', 'Tau_max', \
-                                  'HcondO_avg', 'HcondO_max', 'L', 'timestamp']  # 'HCONDO_group','MI_group',\
-                    # 'ProbTl_avg','ProbTl_max',
-                    dt = df[df.user.isin([user_id])][cols_store].copy()
-                    dt['group'] = str(user_id) + '-' + str(fname)
-                    cols_store = ['group'] + cols_store
-                    dt[cols_store].to_csv(STORE_PATH + '/users/' + str(user_id) + '-' + str(fname) + '.tsv', sep='\t', \
-                                          index=False, header=True, float_format='%.3f')
-
-                data1 = df[cols1].describe(percentiles=[0.1, 0.5, 0.9]).values[1:, :]
-
-                users = np.array([str(user_id) + '-' + str(fname)] * data1.shape[1]).reshape((1, data1.shape[1]))
-                data1 = np.append(users, data1, axis=0)
-
-                for i in range(len(cols1)):
-                    ldata[i].append(data1[:, i])
-                i = 0
-
-                data10 = df[cols1].corr('pearson')
-                data11 = df[cols1].corr('spearman')
-
-                ldata10[i].append(str(user_id) + '-' + str(fname))
-                ldata11[i].append(str(user_id) + '-' + str(fname))
-                i += 1
-                for row in range(1, len(cols1)):
-                    for col in range(0, row):
-                        ldata10[i].append(data10.values[row, col])
-                        ldata11[i].append(data11.values[row, col])
-                        i += 1
-
-                logger.log_done(str(user_id) + '-' + str(fname))
-                records += 1
-
-                if records % RECORDS_PERIOD == 0:
-                    # print("RECORDS: ",records)
-                    idx = 0
-                    for fname2 in cols1:
-                        dt = pd.DataFrame(np.array(ldata[idx]), columns=col_st)
-                        dt = dt.astype(dict_dtype)  # {'user': str})
-
-                        if not os.path.exists(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '.tsv'):
-                            dt.to_csv(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '.tsv', sep='\t',
-                                      header=True, float_format='%.3f', index=False)
-                        else:
-                            with open(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '.tsv', 'a') as f:
-                                dt.to_csv(f, sep='\t', header=False, float_format='%.3f', index=False)
-                        idx += 1
-                    idx = 0
-                    for fname2 in cols1:
-                        dt = pd.DataFrame(np.array(ldata2[idx]), columns=col_st)
-                        dt = dt.astype(dict_dtype)  # {'user': str})
-
-                        if not os.path.exists(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-raw.tsv'):
-                            dt.to_csv(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-raw.tsv', sep='\t',
-                                      header=True, float_format='%.3f', index=False)
-                        else:
-                            with open(STORE_PATH + '/stats-' + str(version) + '/' + fname2 + '-raw.tsv', 'a') as f:
-                                dt.to_csv(f, sep='\t', header=False, index=False, float_format='%.3f')
-                        idx += 1
-                    records = 0
-
-                    ldata = []
-                    for i in range(len(cols1)):
-                        ldata.append([])
-                    ldata2 = []
-                    for i in range(len(cols1)):
-                        ldata2.append([])
-
-                    list_dt = [ldata10, ldata11, ldata8, ldata9]
-                    list_cols = [cols_corrs, cols_corrs]
-
-                    recording_files(list_dt, list_cols, STORE_PATH)
-
-                    ldata10, ldata11 = [], []
-                    for i in range(len(cols_corrs)):
-                        ldata10.append([])
-                        ldata11.append([])
-
-                    ldata8, ldata9 = [], []
-                    for i in range(len(cols_corrs)):
-                        ldata8.append([])
-                        ldata9.append([])
-            else:
-                logger.log_warn(str(user_id) + '-' + str(fname), 'user with posting not enought...')
-                # logger.log_warn(str(fname), 'group with users not enought...')
-    #                break
-    # except Exception as e:
-    #     print(e,row,col)
-    #     print()
-    #     logger.log_warn(str(fname), e)
-    # return
 
     dp = pd.DataFrame(pcvalues)
     # dpr=pd.DataFrame(prvalues)
@@ -607,14 +611,14 @@ def working_process_bits(logger, slices, path, STORE_PATH, version):
         dp.to_csv(STORE_PATH + '/stats-' + str(version) + '/data_prob_cond.tsv', index=False, header=False, sep='\t',
                   float_format='%.2f')
     else:
-        with open(STORE_PATH + '/stats-' + str(version) + '/data_prob_cond.tsv', 'a') as f:
+        with open(STORE_PATH + '/stats-' + str(version) + '/data_prob_cond.tsv', 'w') as f:
             dp.to_csv(f, sep='\t', header=False, float_format='%.2f', index=False)
 
     if not os.path.exists(STORE_PATH + '/stats-' + str(version) + '/data_tau.tsv'):
         dtau.to_csv(STORE_PATH + '/stats-' + str(version) + '/data_tau.tsv', index=False, header=False, sep='\t',
                     float_format='%.2f')
     else:
-        with open(STORE_PATH + '/stats-' + str(version) + '/data_tau.tsv', 'a') as f:
+        with open(STORE_PATH + '/stats-' + str(version) + '/data_tau.tsv', 'w') as f:
             dtau.to_csv(f, sep='\t', header=False, float_format='%.2f', index=False)
 
     idx = 0
@@ -678,7 +682,7 @@ if __name__ == '__main__':
     dgroup_info = pd.read_csv(path + 'dataset_gname_raw_info.csv', sep='\t', encoding='utf-8')
     # dgroup_info=pd.read_csv(path+'dataset_gname_raw_info.csv',sep='\t', encoding='utf-8')
 
-    N_PROC = 70
+    N_PROC = 34
     groups_idx = dgroup_info.gname.values  # groupID.values#gname.values
     # groups_idx=dgroup_info.gname.values
     SIZE = groups_idx.size

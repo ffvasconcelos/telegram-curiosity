@@ -816,16 +816,21 @@ def working_process(path, slices, window):
 
         if not os.path.exists(path + "/stimulus-filter/"):
             os.makedirs(path + "/stimulus-filter/")
-        fout = open(path + "/stimulus-filter/" + str(fname) + '.txt', 'a')
 
-        # matriz de probabilidade
-        path_mtx_prob = path + "/stimulus-filter/group_mtx_prob/"
-        if not os.path.exists(path_mtx_prob):
-            os.makedirs(path_mtx_prob)
+        if not os.path.exists(path + "/stimulus-filter/" + str(fname) + '.txt'):
+            fout = open(path + "/stimulus-filter/" + str(fname) + '.txt', 'w')
 
-        computeStimulusDegree(fin, fout, fname, window, path_mtx_prob, fname)
+            # matriz de probabilidade
+            path_mtx_prob = path + "/stimulus-filter/group_mtx_prob/"
+            if not os.path.exists(path_mtx_prob):
+                os.makedirs(path_mtx_prob)
 
-        fout.close()
+            computeStimulusDegree(fin, fout, fname, window, path_mtx_prob, fname)
+
+            fout.close()
+        else:
+            print("Already done")
+
         count += 1
 
 
@@ -890,7 +895,7 @@ if __name__ == '__main__':
         print('\nNothing was done!....\n')
     groups_idx = np.array(list(set(groups_idx).difference(set(groups_idx_done))))
 
-    N_PROC = 70
+    N_PROC = 34
 
     print("Starting...")
 
