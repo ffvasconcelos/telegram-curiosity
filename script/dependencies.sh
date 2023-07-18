@@ -1,0 +1,11 @@
+echo "Install dependencies"
+pip install datetime
+pip install numpy
+pip install pandas
+pip install networkx
+pip install scipy
+pip install matplotlib
+pip install biokit
+pip install statsmodels
+pip install tqdm
+pip install numba==0.50.1
